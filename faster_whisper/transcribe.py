@@ -141,8 +141,7 @@ class WhisperModel:
             self.hf_tokenizer = tokenizers.Tokenizer.from_pretrained(
                 "openai/whisper-tiny" + ("" if self.model.is_multilingual else ".en")
             )
-
-        self.feature_extractor = FeatureExtractor()
+        self.feature_extractor = FeatureExtractor(feature_size=128 if model_size_or_path.endswith("large-v3") else 80)
         self.num_samples_per_token = self.feature_extractor.hop_length * 2
         self.frames_per_second = (
             self.feature_extractor.sampling_rate // self.feature_extractor.hop_length
